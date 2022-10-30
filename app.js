@@ -13,6 +13,8 @@ const projectRouter = require("./routes/projectRoutes");
 const settingsRouter = require("./routes/settingsRoutes");
 const globalErrorHandler = require("./controllers/errorController");
 const handlebars = require("express-handlebars");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 
 const app = express();
 
