@@ -2,8 +2,8 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const musicRouter = require("./routes/musicRoutes");
 const userRouter = require("./routes/userRoutes");
 const drawingRouter = require("./routes/drawingRoutes");
 const viewRouter = require("./routes/viewRoutes");
@@ -12,25 +12,9 @@ const salesRouter = require("./routes/salesRoutes");
 const projectRouter = require("./routes/projectRoutes");
 const settingsRouter = require("./routes/settingsRoutes");
 const globalErrorHandler = require("./controllers/errorController");
-const handlebars = require("express-handlebars");
-const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
 const app = express();
-
-app.engine(
-  "hbs",
-  handlebars.engine({
-    layoutsDir: `${__dirname}/views/layouts`,
-    extname: "hbs",
-    defaultLayout: "index",
-    partialsDir: [
-      //  path to your partials
-      path.join(__dirname, "views/partials"),
-    ],
-  })
-);
-app.set("view engine", "hbs");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -42,12 +26,6 @@ app.use(bodyParser.json());
 //configure body-parser ends here
 app.use(morgan("dev")); // configire morgan
 // define first route
-
-const FakeApi = "Faker";
-
-app.get("/", (req, res) => {
-  res.status(200).render("main", { player: FakeApi });
-});
 
 app.use("/api/v1/validate", viewRouter);
 app.use("/api/v1/users", userRouter);
